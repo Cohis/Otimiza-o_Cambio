@@ -68,6 +68,29 @@ def operacoes_hoje():
             print(f"{ind} | {valor} | {codigo} | {data}")
 
 
+def ultimas():
+
+    query = """
+    
+    SELECT c.id, o.valor, m.code AS moeda
+    FROM operacoes o
+    JOIN clientes c ON c.id = o.cliente_id
+    JOIN moedas m ON m.id = o.moeda_id
+    
+    ORDER BY DATE(o.data) DESC
+    LIMIT ?
+    """
+
+    limite = int(input("Digite o número de operações recentes que deseja ver: "))
+    
+
+    cursor.execute(query, (limite,))
+
+    resultado = cursor.fetchall()
+
+    for ind, valor, codigo in resultado:
+        print(f"{ind} | {valor} | {codigo}")
+    
 
 
 def menu():
@@ -111,3 +134,6 @@ while op != 9:
 
     elif op == 2:
         operacoes_hoje()
+
+    elif op == 3:
+        ultimas()
