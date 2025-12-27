@@ -78,7 +78,7 @@ def ultimas():
     JOIN moedas m ON m.id = o.moeda_id
     
     ORDER BY DATE(o.data) DESC
-    LIMIT ?
+    LIMIT ? 
     """
 
     limite = int(input("Digite o número de operações recentes que deseja ver: "))
@@ -90,7 +90,79 @@ def ultimas():
 
     for ind, valor, codigo in resultado:
         print(f"{ind} | {valor} | {codigo}")
+
+
+
+def volume_anormal():
+
     
+    query = """
+
+        SELECT
+        c.id,
+        c.nome,
+        c.perfil_risco,
+        SUM(o.valor) AS volume_30d,
+        AVG(o.valor) AS media_operacao
+        FROM operacoes o
+        JOIN clientes c ON o.cliente_id = c.id
+        WHERE o.data >= DATE('2024-07-19', '-30 days')
+        GROUP BY c.id, c.nome, c.perfil_risco
+        HAVING
+        (
+        c.perfil_risco = 'BAIXO'
+        AND (SUM(o.valor) > 50000 OR AVG(o.valor) > 5000)
+        )
+        OR
+        (
+        c.perfil_risco = 'MEDIO'
+        AND (SUM(o.valor) > 200000 OR AVG(o.valor) > 20000)
+        )
+        OR
+        (
+        c.perfil_risco = 'ALTO'
+        AND (SUM(o.valor) > 1000000 OR AVG(o.valor) > 100000)
+        )
+"""
+
+    cursor.execute(query)
+
+    resultado = cursor.fetchall()
+
+    if not resultado:
+        print("Nenhum cliente com volume anormal encontrado.")
+        return
+
+    else:
+        for ind, nome, perfil, soma_valor, average in resultado:
+            print(f"{ind} | {nome} | {perfil} | {soma_valor} | {average}")
+
+
+def menu_risco():
+
+    opcao = 0
+    
+    print("\n ========== CONSULTAS DE RISCO ============")
+
+    print("1- Clientes com volume acima do normal")
+    print("2- Consulta por perfil de risco")
+    print("3- Clientes de alto risco com operações recentes")
+
+    
+    while opcao != 9:
+        
+        try:
+            opcao = int(input("Escolha uma opção: "))
+    
+        except ValueError:
+            print("Opção inválida")
+            continue
+        
+        
+        if opcao == 1:
+            volume_anormal()
+
+
 
 
 def menu():
@@ -137,3 +209,8 @@ while op != 9:
 
     elif op == 3:
         ultimas()
+
+    elif op == 4:
+        menu_risco()
+
+    
