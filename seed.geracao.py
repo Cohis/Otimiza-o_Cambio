@@ -8,13 +8,13 @@ cursor = conn.cursor()
 moedas = [
     ("USD", "Dólar Americano"),
     ("EUR", "Euro"),
-    ("JPY", "Iene")
-    ("GBP", "Libra")
+    ("JPY", "Iene"),
+    ("GBP", "Libra"),
     ("BRL", "Real")
 ]
 
 cursor.executemany(
-    "INSERT OR IGNORE INTO moedas (codigo, nome) VALUES (?,?)",
+    "INSERT OR IGNORE INTO moedas (code, nome) VALUES (?,?)",
     moedas
 )
 
@@ -26,7 +26,7 @@ instituicoes = [
 ]
 
 cursor.executemany(
-    "INSERT INTO instituições (nome, pais) VALUES (?, ?)",
+    "INSERT INTO instituicoes (nome, pais) VALUES (?, ?)",
     instituicoes
 )
 

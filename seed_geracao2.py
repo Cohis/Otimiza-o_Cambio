@@ -50,7 +50,7 @@ clientes_id = [row[0] for row in cursor.fetchall()]
 cursor.execute("SELECT id FROM moedas")
 moedas_id = [row[0] for row in cursor.fetchall()]
 
-cursor.execute("SELECT id FROM instituições")
+cursor.execute("SELECT id FROM instituicoes")
 instituicoes_id = [row[0] for row in cursor.fetchall()]
 
 

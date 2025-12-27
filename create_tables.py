@@ -52,6 +52,7 @@ cursor.execute("""
 #Tabela operações
 
 cursor.execute("""
+               
 CREATE TABLE IF NOT EXISTS operacoes (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           cliente_id INTEGER,
@@ -59,10 +60,12 @@ CREATE TABLE IF NOT EXISTS operacoes (
           instituicao_id INTEGER,
           tipo TEXT,
           valor REAL,
+          taxa REAL,
           data TEXT,
+          
 
           FOREIGN KEY (cliente_id) REFERENCES clientes(id),
-          FOREIGN KEY (insituicao_id) REFERENCES instituicoes(id),
+          FOREIGN KEY (instituicao_id) REFERENCES instituicoes(id),
           FOREIGN KEY (moeda_id) REFERENCES moedas(id)  
                
                )
@@ -70,6 +73,12 @@ CREATE TABLE IF NOT EXISTS operacoes (
 
 
 """)
+
+cursor.execute("""
+          ALTER TABLE operacoes
+          ADD COLUMN taxa REAL
+""")
+
 
 
 conn.commit()
