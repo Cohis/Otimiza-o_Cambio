@@ -1,6 +1,3 @@
-Perfeito. Segue o **README completo em inglês**, com o trecho que você pediu **adicionado no início**, tudo integrado e pronto para colar no GitHub.
-
----
 
 # Foreign Exchange Desk Database Simulation (SQLite + Python)
 
