@@ -138,6 +138,64 @@ def volume_anormal():
             print(f"{ind} | {nome} | {perfil} | {soma_valor} | {average}")
 
 
+def perfil():
+
+    query = """
+        SELECT 
+            c.id,
+            c.nome,
+            c.pais,
+            c.perfil_risco,
+            m.code,
+            o.valor,
+            o.tipo,
+            o.data
+        FROM operacoes o
+        JOIN clientes c ON o.cliente_id = c.id
+        JOIN moedas m ON o.moeda_id = m.id
+        WHERE c.perfil_risco = ?
+    """
+
+    perfi = input("Digite o perfil a ser analisado: ")
+
+    cursor.execute(query, (perfi,))
+    resultado = cursor.fetchall()
+
+    for ind, nome, pais, per, cod, valor, tipo, data in resultado:
+        print(f"{ind} | {nome} | {pais} | {per} | {cod} | {valor} | {tipo} | {data}")
+
+def ar_op():
+
+    query = """
+
+        SELECT 
+            o.cliente_id,
+            c.nome,
+            c.pais
+            
+
+            FROM operacoes o
+            JOIN clientes c ON o.cliente_id = c.id
+
+            WHERE c.perfil_risco = 'ALTO' AND o.data >= DATE('2024-07-19', '-30 days')
+
+            ORDER BY DATE(o.data) DESC
+"""
+
+
+    cursor.execute(query)
+
+    resultado = cursor.fetchall()
+
+    for ind, nome, pais in resultado:
+        print(f"{ind} | {nome} | {pais} |")
+
+          
+    
+
+    
+
+
 def menu_risco():
 
     opcao = 0
@@ -161,6 +219,12 @@ def menu_risco():
         
         if opcao == 1:
             volume_anormal()
+
+        elif opcao == 2:
+            perfil()
+
+        elif opcao == 3:
+            ar_op()
 
 
 
@@ -213,4 +277,6 @@ while op != 9:
     elif op == 4:
         menu_risco()
 
-    
+    elif op == 5:
+        print("Ainda estou trabalhando nisso...s")
+
