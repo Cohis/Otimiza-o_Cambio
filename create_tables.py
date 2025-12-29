@@ -79,6 +79,28 @@ cursor.execute("""
           ADD COLUMN taxa REAL
 """)
 
+cursor.execute("""
+     CREATE INDEX idx_operacoes_cliente_data
+     ON operacoes(cliente_id, data DESC);
+
+""")
+
+cursor.execute("""
+
+     CREATE INDEX idx_operacoes_data
+     ON operacoes(data);
+
+""")
+
+cursor.execute("""
+     CREATE INDEX idx_clientes_perfil
+     ON clientes(perfil_risco);
+""")
+
+cursor.execute("""
+     CREATE INDEX idx_operacoes_moeda
+     ON operacoes (moeda_id);
+""")
 
 
 conn.commit()

@@ -1,10 +1,12 @@
 import sqlite3
-import pandas as pd
+
 from db import get_connection
 
 conn = get_connection()
 
 cursor = conn.cursor()
+
+
 
 def historico_cliente():
 
@@ -52,10 +54,12 @@ def operacoes_hoje():
         JOIN clientes c ON c.id = o.cliente_id
         JOIN moedas m ON m.id = o.moeda_id
 
-        WHERE DATE(o.data) = DATE(?)
+        WHERE o.data >= DATE(?)
+        AND o.data < DATE(?, '+1 day')
+
 
 """
-    cursor.execute(query, (hoje,))
+    cursor.execute(query, (hoje,hoje))
 
     resultado = cursor.fetchall()
 
@@ -77,7 +81,7 @@ def ultimas():
     JOIN clientes c ON c.id = o.cliente_id
     JOIN moedas m ON m.id = o.moeda_id
     
-    ORDER BY DATE(o.data) DESC
+    ORDER BY o.data DESC
     LIMIT ? 
     """
 
@@ -106,7 +110,7 @@ def volume_anormal():
         AVG(o.valor) AS media_operacao
         FROM operacoes o
         JOIN clientes c ON o.cliente_id = c.id
-        WHERE o.data >= DATE('2024-07-19', '-30 days')
+        WHERE o.data >='2024-06-18' AND o.data < '2024-07-20'
         GROUP BY c.id, c.nome, c.perfil_risco
         HAVING
         (
@@ -168,7 +172,7 @@ def ar_op():
 
     query = """
 
-        SELECT 
+        SELECT DISTINCT
             o.cliente_id,
             c.nome,
             c.pais
@@ -179,7 +183,7 @@ def ar_op():
 
             WHERE c.perfil_risco = 'ALTO' AND o.data >= DATE('2024-07-19', '-30 days')
 
-            ORDER BY DATE(o.data) DESC
+            ORDER BY o.data DESC
 """
 
 
@@ -225,7 +229,8 @@ def menu_risco():
 
         elif opcao == 3:
             ar_op()
-
+        elif opcao == 9:
+            break
 
 
 
@@ -280,3 +285,6 @@ while op != 9:
     elif op == 5:
         print("Ainda estou trabalhando nisso...s")
 
+
+
+conn.close()
