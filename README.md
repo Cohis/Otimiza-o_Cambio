@@ -168,11 +168,3 @@ Dedicated submenu for **risk-related queries**, including:
 
 This project is a **simulation of a financial query system**, focused on clarity, performance, and best practices in SQL and Python.
 It is suitable for educational purposes, database studies, and financial system prototypes.
-
----
-
-If you want, I can also:
-
-* Rewrite it in a more academic or corporate tone
-* Add usage examples
-* Create a fully structured `README.md` with setup and execution steps
